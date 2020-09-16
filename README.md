@@ -1,9 +1,9 @@
 # Magnolia React Native Editor (non-official)
 
-This package is a near-identical clone of `@magnolia/react-editor` except it uses React Native `<View>` components as
-wrappers rather than `<div>`. This allows you to build your React Native project for the web (`expo build:web`) and let
-Magnolia use it for previewing (i.e. placing the resulting build in `my-light-module\webresources\build`), while
-maintaining the ability to build for Android/iOS.
+This package is a near-identical clone of `@magnolia/react-editor` except it compiles correctly in React Native projects
+by removing web-specific wrappers such as `<div>` elements. This allows you to build your React Native project for the
+web (`expo build:web`) and let Magnolia use it for previewing (i.e. placing the resulting build in `my-light-module\webresources\build`),
+while maintaining the ability to build for Android/iOS.
 
 This package is a temporary solution, as Magnolia intends to support React Native in the future:
 https://jira.magnolia-cms.com/browse/SUGGEST-235
