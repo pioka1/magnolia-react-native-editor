@@ -82,9 +82,9 @@ class EditablePage extends React.PureComponent {
         // don't have a parent node.
         return (
             <EditorProvider value={contextValue}>
-                <React.Fragment ref={node => this.node = node} key={contextValue.content['@id']}>
+                <>
                     {pageComponent}
-                </React.Fragment>
+                </>
             </EditorProvider>
         );
     }

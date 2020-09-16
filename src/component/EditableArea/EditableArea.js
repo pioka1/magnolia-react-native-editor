@@ -18,7 +18,7 @@ class EditableArea extends React.PureComponent {
     static defaultProps = {
         parentTemplateId: null,
         className: null,
-        elementType: 'div',
+        elementType: null,
         children: null
     }
 
@@ -64,7 +64,7 @@ class EditableArea extends React.PureComponent {
         const componentNames = content['@nodes'];
         const element = React.createElement(elementType || React.Fragment);
         return (
-            <element.type ref={node => this.node = node} key={content['@id']} className={ComponentHelper.classnames(className)}>
+            <element.type className={ComponentHelper.classnames(className)}>
                 {children}
                 {
                     componentNames.map((name) => <EditableComponent key={content[name]['@id']} content={content[name]} />)

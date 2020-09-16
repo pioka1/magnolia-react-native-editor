@@ -48,14 +48,6 @@ export default class EditableComponent extends React.PureComponent {
     render() {
         const { content } = this.props;
         const { componentMappings } = this.context;
-        const component = ComponentHelper.getRenderedComponent(content, componentMappings);
-
-        return (
-            <>
-                <React.Fragment ref={node => this.openNode = node} />
-                {component}
-                <React.Fragment ref={node => this.closeNode = node} />
-            </>
-        );
+        return ComponentHelper.getRenderedComponent(content, componentMappings);
     }
 }
