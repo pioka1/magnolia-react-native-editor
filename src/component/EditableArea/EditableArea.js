@@ -1,5 +1,4 @@
 import React from 'react';
-import { View } from 'react-native';
 import { TemplateAnnotations } from '@magnolia/template-annotations';
 import PropTypes from 'prop-types';
 import { EditableComponent } from '../EditableComponent';
@@ -63,7 +62,7 @@ class EditableArea extends React.PureComponent {
             content, className, elementType, children
         } = this.props;
         const componentNames = content['@nodes'];
-        const element = React.createElement(elementType || View);
+        const element = React.createElement(elementType || React.Fragment);
         return (
             <element.type ref={node => this.node = node} key={content['@id']} className={ComponentHelper.classnames(className)}>
                 {children}

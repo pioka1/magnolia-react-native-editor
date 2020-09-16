@@ -1,5 +1,4 @@
 import React from 'react';
-import { View } from 'react-native';
 import PropTypes from 'prop-types';
 import { TemplateAnnotations } from '@magnolia/template-annotations';
 import {
@@ -53,9 +52,9 @@ export default class EditableComponent extends React.PureComponent {
 
         return (
             <>
-                <View ref={node => this.openNode = node} />
+                <React.Fragment ref={node => this.openNode = node} />
                 {component}
-                <View ref={node => this.closeNode = node} />
+                <React.Fragment ref={node => this.closeNode = node} />
             </>
         );
     }

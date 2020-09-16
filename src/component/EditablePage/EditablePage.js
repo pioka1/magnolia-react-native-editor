@@ -1,5 +1,4 @@
 import React from 'react';
-import { View } from 'react-native';
 import { TemplateAnnotations } from '@magnolia/template-annotations';
 import PropTypes from 'prop-types';
 import {
@@ -83,9 +82,9 @@ class EditablePage extends React.PureComponent {
         // don't have a parent node.
         return (
             <EditorProvider value={contextValue}>
-                <View ref={node => this.node = node} key={contextValue.content['@id']}>
+                <React.Fragment ref={node => this.node = node} key={contextValue.content['@id']}>
                     {pageComponent}
-                </View>
+                </React.Fragment>
             </EditorProvider>
         );
     }

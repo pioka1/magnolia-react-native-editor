@@ -1,5 +1,4 @@
 import React from 'react';
-import { View } from 'react-native';
 import constants from './constants';
 
 function componentHelper() {
@@ -9,7 +8,7 @@ function componentHelper() {
 
     function getRenderedComponent(componentContent, componentMappings) {
         if (!componentContent || !componentMappings || !componentMappings[componentContent[constants.TEMPLATE_ID_PROP]]) {
-            return React.createElement(View);
+            return React.createElement(React.Fragment);
         }
 
         const componentClass = componentMappings[componentContent[constants.TEMPLATE_ID_PROP]];
