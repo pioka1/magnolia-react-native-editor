@@ -12,7 +12,8 @@ class EditablePage extends React.PureComponent {
         templateDefinitions: PropTypes.object,
         config: PropTypes.shape({
             componentMappings: PropTypes.object
-        })
+        }),
+        wrapperComponent: PropTypes.node
     }
 
     static defaultProps = {
@@ -21,7 +22,8 @@ class EditablePage extends React.PureComponent {
         templateDefinitions: null,
         config: {
             componentMappings: {}
-        }
+        },
+        wrapperComponent: null
     }
 
     componentDidMount() {
@@ -75,16 +77,17 @@ class EditablePage extends React.PureComponent {
     }
 
     render() {
+        const { children, wrapperComponent } = this.props;
+        const PageWrapper = wrapperComponent || React.createElement('div').type;
         const contextValue = this.getContextValue();
-        const { children } = this.props;
         const pageComponent = this.hasPageComponent() ? ComponentHelper.getRenderedComponent(contextValue.content, contextValue.componentMappings) : children;
         // NOTE: We need a div tag as a parent node for Page's child HTML. It will cause an issue if we
         // don't have a parent node.
         return (
             <EditorProvider value={contextValue}>
-                <>
+                <PageWrapper ref={node => this.node = node} key={contextValue.content['@id']}>
                     {pageComponent}
-                </>
+                </PageWrapper>
             </EditorProvider>
         );
     }

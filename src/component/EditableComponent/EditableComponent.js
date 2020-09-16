@@ -7,8 +7,13 @@ import {
 
 export default class EditableComponent extends React.PureComponent {
     static propTypes = {
-        content: PropTypes.object.isRequired
+        content: PropTypes.object.isRequired,
+        wrapperComponent: PropTypes.node
     };
+
+    static defaultProps = {
+        wrapperComponent: null
+    }
 
     constructor(props) {
         super(props);
@@ -46,8 +51,17 @@ export default class EditableComponent extends React.PureComponent {
     }
 
     render() {
-        const { content } = this.props;
+        const { content, wrapperComponent } = this.props;
         const { componentMappings } = this.context;
-        return ComponentHelper.getRenderedComponent(content, componentMappings);
+        const component = ComponentHelper.getRenderedComponent(content, componentMappings);
+        const ComponentWrapper = wrapperComponent || React.createElement('div').type;
+
+        return (
+            <>
+                <ComponentWrapper ref={node => this.openNode = node} />
+                {component}
+                <ComponentWrapper ref={node => this.closeNode = node} />
+            </>
+        );
     }
 }

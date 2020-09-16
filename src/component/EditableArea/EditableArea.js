@@ -11,14 +11,14 @@ class EditableArea extends React.PureComponent {
         content: PropTypes.object.isRequired,
         parentTemplateId: PropTypes.string,
         className: PropTypes.any,
-        elementType: PropTypes.string,
+        wrapperComponent: PropTypes.node,
         children: PropTypes.node
     };
 
     static defaultProps = {
         parentTemplateId: null,
         className: null,
-        elementType: null,
+        wrapperComponent: null,
         children: null
     }
 
@@ -59,17 +59,17 @@ class EditableArea extends React.PureComponent {
 
     render() {
         const {
-            content, className, elementType, children
+            content, className, children, wrapperComponent
         } = this.props;
         const componentNames = content['@nodes'];
-        const element = React.createElement(elementType || React.Fragment);
+        const AreaWrapper = wrapperComponent || React.createElement('div').type;
         return (
-            <element.type className={ComponentHelper.classnames(className)}>
+            <AreaWrapper ref={node => this.node = node} key={content['@id']} className={ComponentHelper.classnames(className)}>
                 {children}
                 {
-                    componentNames.map((name) => <EditableComponent key={content[name]['@id']} content={content[name]} />)
+                    componentNames.map((name) => <EditableComponent key={content[name]['@id']} content={content[name]} wrapperComponent={wrapperComponent} />)
                 }
-            </element.type>
+            </AreaWrapper>
         );
     }
 }
