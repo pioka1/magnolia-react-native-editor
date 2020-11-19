@@ -1,6 +1,7 @@
 import React from 'react';
 import { TemplateAnnotations } from '@magnolia/template-annotations';
 import PropTypes from 'prop-types';
+
 import {
     EditorProvider, ComponentHelper, constants, EditorContextHelper
 } from '../../util';
@@ -13,7 +14,8 @@ class EditablePage extends React.PureComponent {
         config: PropTypes.shape({
             componentMappings: PropTypes.object
         }),
-        wrapperComponent: PropTypes.node
+        buildForMagnolia: PropTypes.bool,
+        MobileWrapper: PropTypes.node
     }
 
     static defaultProps = {
@@ -23,7 +25,8 @@ class EditablePage extends React.PureComponent {
         config: {
             componentMappings: {}
         },
-        wrapperComponent: null
+        buildForMagnolia: false,
+        MobileWrapper: React.Fragment
     }
 
     componentDidMount() {
@@ -77,19 +80,23 @@ class EditablePage extends React.PureComponent {
     }
 
     render() {
-        const { children, wrapperComponent } = this.props;
-        const PageWrapper = wrapperComponent || React.createElement('div').type;
+        const { children, buildForMagnolia, MobileWrapper } = this.props;
         const contextValue = this.getContextValue();
         const pageComponent = this.hasPageComponent() ? ComponentHelper.getRenderedComponent(contextValue.content, contextValue.componentMappings) : children;
-        // NOTE: We need a div tag as a parent node for Page's child HTML. It will cause an issue if we
-        // don't have a parent node.
-        return (
-            <EditorProvider value={contextValue}>
-                <PageWrapper ref={node => this.node = node} key={contextValue.content['@id']}>
-                    {pageComponent}
-                </PageWrapper>
-            </EditorProvider>
-        );
+
+        if (buildForMagnolia) {
+            // NOTE: We need a div tag as a parent node for Page's child HTML. It will cause an issue if we
+            // don't have a parent node.
+            return (
+                <EditorProvider value={contextValue}>
+                    <div ref={node => this.node = node} key={contextValue.content['@id']}>
+                        {pageComponent}
+                    </div>
+                </EditorProvider>
+            );
+        }
+
+        return <MobileWrapper>{pageComponent}</MobileWrapper>;
     }
 }
 

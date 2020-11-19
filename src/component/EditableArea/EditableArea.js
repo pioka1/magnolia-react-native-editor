@@ -1,6 +1,7 @@
 import React from 'react';
 import { TemplateAnnotations } from '@magnolia/template-annotations';
 import PropTypes from 'prop-types';
+
 import { EditableComponent } from '../EditableComponent';
 import {
     EditorContext, constants, EditorContextHelper, ComponentHelper
@@ -11,15 +12,15 @@ class EditableArea extends React.PureComponent {
         content: PropTypes.object.isRequired,
         parentTemplateId: PropTypes.string,
         className: PropTypes.any,
-        wrapperComponent: PropTypes.node,
-        children: PropTypes.node
+        buildForMagnolia: PropTypes.bool,
+        MobileWrapper: PropTypes.node
     };
 
     static defaultProps = {
         parentTemplateId: null,
         className: null,
-        wrapperComponent: null,
-        children: null
+        buildForMagnolia: false,
+        MobileWrapper: React.Fragment
     }
 
     constructor(props) {
@@ -59,17 +60,28 @@ class EditableArea extends React.PureComponent {
 
     render() {
         const {
-            content, className, children, wrapperComponent
+            content, className, buildForMagnolia, MobileWrapper
         } = this.props;
         const componentNames = content['@nodes'];
-        const AreaWrapper = wrapperComponent || React.createElement('div').type;
+
+        if (buildForMagnolia) {
+            return (
+                <div ref={node => this.node = node} key={content['@id']} className={ComponentHelper.classnames(className)}>
+                    {
+                        componentNames.map((name) => <EditableComponent key={content[name]['@id']} content={content[name]} />)
+                    }
+                </div>
+            );
+        }
+
         return (
-            <AreaWrapper ref={node => this.node = node} key={content['@id']} className={ComponentHelper.classnames(className)}>
-                {children}
+            <MobileWrapper key={content['@id']} className={ComponentHelper.classnames(className)}>
                 {
-                    componentNames.map((name) => <EditableComponent key={content[name]['@id']} content={content[name]} wrapperComponent={wrapperComponent} />)
+                    componentNames.map((name) => (
+                        <EditableComponent key={content[name]['@id']} content={content[name]} buildForMagnolia={buildForMagnolia} MobileWrapper={MobileWrapper} />
+                    ))
                 }
-            </AreaWrapper>
+            </MobileWrapper>
         );
     }
 }

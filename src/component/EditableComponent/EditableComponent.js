@@ -8,11 +8,13 @@ import {
 export default class EditableComponent extends React.PureComponent {
     static propTypes = {
         content: PropTypes.object.isRequired,
-        wrapperComponent: PropTypes.node
+        buildForMagnolia: PropTypes.bool,
+        MobileWrapper: PropTypes.node
     };
 
     static defaultProps = {
-        wrapperComponent: null
+        buildForMagnolia: false,
+        MobileWrapper: React.Fragment
     }
 
     constructor(props) {
@@ -51,17 +53,22 @@ export default class EditableComponent extends React.PureComponent {
     }
 
     render() {
-        const { content, wrapperComponent } = this.props;
+        const { content, buildForMagnolia, MobileWrapper } = this.props;
         const { componentMappings } = this.context;
         const component = ComponentHelper.getRenderedComponent(content, componentMappings);
-        const ComponentWrapper = wrapperComponent || React.createElement('div').type;
+
+        if (buildForMagnolia) {
+            return (
+                <>
+                    <div ref={node => this.openNode = node} />
+                    {component}
+                    <div ref={node => this.closeNode = node} />
+                </>
+            );
+        }
 
         return (
-            <>
-                <ComponentWrapper ref={node => this.openNode = node} />
-                {component}
-                <ComponentWrapper ref={node => this.closeNode = node} />
-            </>
+            <MobileWrapper>{component}</MobileWrapper>
         );
     }
 }
