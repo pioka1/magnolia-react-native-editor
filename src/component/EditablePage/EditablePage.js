@@ -82,7 +82,9 @@ class EditablePage extends React.PureComponent {
     render() {
         const { children, buildForMagnolia, MobileWrapper } = this.props;
         const contextValue = this.getContextValue();
-        const pageComponent = this.hasPageComponent() ? ComponentHelper.getRenderedComponent(contextValue.content, contextValue.componentMappings) : children;
+        const pageComponent = this.hasPageComponent()
+            ? ComponentHelper.getRenderedComponent(contextValue.content, contextValue.componentMappings, buildForMagnolia)
+            : children;
 
         if (buildForMagnolia) {
             // NOTE: We need a div tag as a parent node for Page's child HTML. It will cause an issue if we

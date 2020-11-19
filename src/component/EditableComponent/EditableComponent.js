@@ -55,7 +55,7 @@ export default class EditableComponent extends React.PureComponent {
     render() {
         const { content, buildForMagnolia, MobileWrapper } = this.props;
         const { componentMappings } = this.context;
-        const component = ComponentHelper.getRenderedComponent(content, componentMappings);
+        const component = ComponentHelper.getRenderedComponent(content, componentMappings, buildForMagnolia);
 
         if (buildForMagnolia) {
             return (

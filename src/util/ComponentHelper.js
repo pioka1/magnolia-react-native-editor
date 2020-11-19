@@ -6,9 +6,9 @@ function componentHelper() {
         getRenderedComponent, getComponentProperties, addComment, classnames
     };
 
-    function getRenderedComponent(componentContent, componentMappings) {
+    function getRenderedComponent(componentContent, componentMappings, buildForMagnolia) {
         if (!componentContent || !componentMappings || !componentMappings[componentContent[constants.TEMPLATE_ID_PROP]]) {
-            return React.createElement(React.Fragment);
+            return buildForMagnolia ? React.createElement('div') : React.createElement(React.Fragment);
         }
 
         const componentClass = componentMappings[componentContent[constants.TEMPLATE_ID_PROP]];
