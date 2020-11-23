@@ -9,7 +9,7 @@ export default class EditableComponent extends React.PureComponent {
     static propTypes = {
         content: PropTypes.object.isRequired,
         buildForMagnolia: PropTypes.bool,
-        MobileWrapper: PropTypes.node
+        MobileWrapper: PropTypes.any
     };
 
     static defaultProps = {

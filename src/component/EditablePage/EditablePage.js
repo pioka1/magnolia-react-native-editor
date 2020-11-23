@@ -15,7 +15,7 @@ class EditablePage extends React.PureComponent {
             componentMappings: PropTypes.object
         }),
         buildForMagnolia: PropTypes.bool,
-        MobileWrapper: PropTypes.node
+        MobileWrapper: PropTypes.any
     }
 
     static defaultProps = {
@@ -98,7 +98,11 @@ class EditablePage extends React.PureComponent {
             );
         }
 
-        return <MobileWrapper>{pageComponent}</MobileWrapper>;
+        return (
+            <EditorProvider value={contextValue}>
+                <MobileWrapper>{pageComponent}</MobileWrapper>
+            </EditorProvider>
+        );
     }
 }
 

@@ -13,7 +13,7 @@ class EditableArea extends React.PureComponent {
         parentTemplateId: PropTypes.string,
         className: PropTypes.any,
         buildForMagnolia: PropTypes.bool,
-        MobileWrapper: PropTypes.node
+        MobileWrapper: PropTypes.any
     };
 
     static defaultProps = {
@@ -68,7 +68,7 @@ class EditableArea extends React.PureComponent {
             return (
                 <div ref={node => this.node = node} key={content['@id']} className={ComponentHelper.classnames(className)}>
                     {
-                        componentNames.map((name) => <EditableComponent key={content[name]['@id']} content={content[name]} />)
+                        componentNames.map((name) => <EditableComponent key={content[name]['@id']} content={content[name]} buildForMagnolia />)
                     }
                 </div>
             );
